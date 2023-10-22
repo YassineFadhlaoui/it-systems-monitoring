@@ -1,0 +1,22 @@
+services:
+  web-service:
+    image: nginx
+    volumes:
+      - ./nginx/status.conf:/etc/nginx/conf.d/status.conf:ro
+    ports:
+      - "8000:8000"
+      - "80:80"
+  system-stress:
+    image: "yassinefadhlaoui/system-stress"
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command:
+      - server
+      - /data
+      - --console-address
+      - ":9001"
+    environment:
+      INIO_PROMETHEUS_AUTH_TYPE: "public"
